@@ -16,6 +16,7 @@ let s:CONTEXT_IMPORT_STATIC	= 4
 let s:CONTEXT_PACKAGE_DECL	= 6
 let s:CONTEXT_NEED_TYPE		= 7
 let s:CONTEXT_OTHER 		= 0
+let s:CONTEXT_FILEPATH = expand('<sfile>:p:h')
 
 
 let s:ARRAY_TYPE_MEMBERS = [
@@ -1758,10 +1759,9 @@ fu! s:GetJavaCompleteClassPath()
   if classfile == ''
     " try to find source file and compile to $HOME
     let srcfile = globpath(&rtp, 'autoload/Reflection.java')
-    let binfile = substitute(srcfile, "java$", "class", "g")
     if srcfile != ''
-      exe '!' . javacomplete#GetCompiler() . ' -d "' . binfile . '"'
-      let classfile = globpath(&rtp, 'Reflection.class')
+      exe '!' . javacomplete#GetCompiler() . ' -d "' . s:CONTEXT_FILEPATH . '" "' . srcfile . '"'
+      let classfile = globpath(&rtp, 'autoload/Reflection.class')
       if classfile == ''
         echo srcfile . ' can not be compiled. Please check it'
       endif
