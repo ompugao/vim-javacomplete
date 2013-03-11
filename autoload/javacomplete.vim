@@ -1760,7 +1760,7 @@ fu! s:GetJavaCompleteClassPath()
     " try to find source file and compile to $HOME
     let srcfile = globpath(&rtp, 'autoload/Reflection.java')
     if srcfile != ''
-      exe '!' . javacomplete#GetCompiler() . ' -d "' . s:CONTEXT_FILEPATH . '" "' . srcfile . '"'
+      silent exe '!' . javacomplete#GetCompiler() . ' -d "' . s:CONTEXT_FILEPATH . '" "' . srcfile . '"'
       let classfile = globpath(&rtp, 'autoload/Reflection.class')
       if classfile == ''
         echo srcfile . ' can not be compiled. Please check it'
